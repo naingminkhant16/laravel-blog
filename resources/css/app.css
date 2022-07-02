@@ -1,0 +1,11 @@
+/* // Fonts */
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+/* // Variables */
+/* @import '../../node_modules/variables'; */
+
+/* //icons */
+@import "../../node_modules/bootstrap-icons/font/bootstrap-icons.css";
+
+/* // Bootstrap */
+@import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
