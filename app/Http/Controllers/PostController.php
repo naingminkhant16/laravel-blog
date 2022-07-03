@@ -27,7 +27,7 @@ class PostController extends Controller
             ->when(request('search'), function ($q, $search) {
                 $q->where('title', "like", "%" . $search . "%")
                     ->orWhere('body', 'like', "%" . $search . "%");
-            })->latest('id')->paginate(10);
+            })->latest('id')->paginate(10)->withQueryString();
         return view('post.index', ['posts' => $posts]);
     }
 

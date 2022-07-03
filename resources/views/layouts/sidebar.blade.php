@@ -11,7 +11,7 @@
 
 <small class="text-black-50">Manage Categories</small>
 <div class="list-group mb-3">
-    <a href="{{route('home')}}" class="list-group-item list-group-item-action">Categories</a>
+    <a href="{{route('category.index')}}" class="list-group-item list-group-item-action">Categories</a>
     <a href="" class="list-group-item list-group-item-action">Create New Category</a>
 </div>
 

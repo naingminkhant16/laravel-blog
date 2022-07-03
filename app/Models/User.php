@@ -42,12 +42,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $wit = ['posts'];
+    protected $wit = ['posts', 'categories'];
 
     public function posts()
     {
         return $this->hasMany(Post::class);
     }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
+
 
     public function isAdmin()
     {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -15,7 +16,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::when(Auth::user()->isAuthor(), fn ($q) => $q->where('user_id', Auth::id()))
+            ->when(request('search'), function ($q, $search) {
+                $q->where('title', "like", "%" . $search . "%");
+            })->latest('id')->get();
+        return view('category.index', compact('categories'));
     }
 
     /**
