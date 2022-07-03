@@ -23,8 +23,9 @@
 
 <body>
     <div id="app">
+
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
+            <div class="container-fluid">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
@@ -60,6 +61,8 @@
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }}
+                                <br>
+                                <span>{{Auth::user()->role}}</span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -79,10 +82,36 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        @auth
+        <main class="py-3">
+            <div class="container-fluid">
+                <div class="row g-3 justify-content-center">
+                    <div class="col-md-2">
+                        @include('layouts.sidebar')
+                    </div>
+                    <div class="col-md-10">
+                        @yield('content')
+                    </div>
+                </div>
+            </div>
+        </main>
+        @endauth
+
+        @guest
+        <main class="py-3">
             @yield('content')
         </main>
+        @endguest
+
     </div>
+
+
+    <script>
+        @if (session('status'))
+        showToast("{{session('status')}}");
+        @endif
+    </script>
+
 </body>
 
 </html>
