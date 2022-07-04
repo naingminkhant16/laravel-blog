@@ -30,5 +30,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('/category', CategoryController::class);
 
-    Route::resource('/user', UserController::class);
+    Route::resource('/user', UserController::class)->middleware('isAdmin');
 });

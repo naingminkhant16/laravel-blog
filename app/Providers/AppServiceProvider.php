@@ -29,5 +29,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrapFive();
 
         Blade::if('notAuthor', fn () => !Auth::user()->isAuthor());
+
+        Blade::if('admin', fn () => Auth::user()->isAdmin());
     }
 }
