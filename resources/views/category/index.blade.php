@@ -46,8 +46,8 @@
                         <td class=""> <span class="badge bg-secondary">{{$category->slug}}</span></td>
                         <td>
                             <div class="d-flex justify-content-start">
-                                <a href="{{route('category.show',$category->id)}}"
-                                    class="btn me-1 btn-outline-dark btn-sm"><i class="bi bi-info-circle"></i></a>
+                                {{-- <a href="{{route('category.show',$category->id)}}"
+                                    class="btn me-1 btn-outline-dark btn-sm"><i class="bi bi-info-circle"></i></a> --}}
                                 <a href="{{route('category.edit',$category->id)}}"
                                     class="btn me-1 btn-outline-dark btn-sm"><i class="bi bi-pencil"></i></a>
                                 <form action="{{route('category.destroy',$category->id)}}" id="del{{$category->id}}"

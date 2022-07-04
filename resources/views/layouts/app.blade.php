@@ -87,7 +87,9 @@
             <div class="container-fluid">
                 <div class="row g-3 justify-content-center">
                     <div class="col-md-2">
+
                         @include('layouts.sidebar')
+
                     </div>
                     <div class="col-md-10">
                         @yield('content')

@@ -38,7 +38,7 @@
                     @foreach ($posts as $post)
                     <tr>
                         <td>{{$post->id}}</td>
-                        <td class="">
+                        <td class="w-25">
                             {{$post->title}}
                             <br>
                             <span class="badge bg-secondary">{{$post->slug}}</span>

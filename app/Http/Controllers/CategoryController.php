@@ -6,6 +6,8 @@ use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -17,8 +19,10 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::when(Auth::user()->isAuthor(), fn ($q) => $q->where('user_id', Auth::id()))
-            ->when(request('search'), function ($q, $search) {
-                $q->where('title', "like", "%" . $search . "%");
+            ->where(function ($q) {
+                $q->when(request('search'), function ($q, $search) {
+                    $q->where('title', "like", "%" . $search . "%");
+                });
             })->latest('id')->get();
         return view('category.index', compact('categories'));
     }
@@ -30,7 +34,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('category.create');
     }
 
     /**
@@ -41,7 +45,12 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $category = new Category();
+        $category->title = $request->title;
+        $category->slug = Str::slug($request->title);
+        $category->user_id = Auth::id();
+        $category->save();
+        return  redirect()->route('category.index')->with('status', $category->title . " is successfully created");
     }
 
     /**
@@ -63,7 +72,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        Gate::authorize('view', $category);
+        return view('category.edit', compact('category'));
     }
 
     /**
@@ -75,7 +85,11 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $category->title = $request->title;
+        $category->slug = Str::slug($request->title);
+        // $category->user_id = Auth::id();
+        $category->update();
+        return  redirect()->route('category.index')->with('status', $category->title . " is successfully updated");
     }
 
     /**
@@ -86,6 +100,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        Gate::authorize('delete', $category);
+        $oldTitle = $category->title;
+        $category->delete();
+        return  redirect()->route('category.index')->with('status', $oldTitle . " is successfully deleted");
     }
 }

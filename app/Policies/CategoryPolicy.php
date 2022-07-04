@@ -9,7 +9,10 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class CategoryPolicy
 {
     use HandlesAuthorization;
-
+    public function before(User $user)
+    {
+        if ($user->isAdmin() || $user->isEditor()) return true;
+    }
     /**
      * Determine whether the user can view any models.
      *
@@ -30,7 +33,7 @@ class CategoryPolicy
      */
     public function view(User $user, Category $category)
     {
-        //
+        return $user->id === $category->user_id;
     }
 
     /**
@@ -53,7 +56,7 @@ class CategoryPolicy
      */
     public function update(User $user, Category $category)
     {
-        //
+        return $user->id === $category->user_id;
     }
 
     /**
@@ -65,7 +68,7 @@ class CategoryPolicy
      */
     public function delete(User $user, Category $category)
     {
-        //
+        return $user->id === $category->user_id;
     }
 
     /**

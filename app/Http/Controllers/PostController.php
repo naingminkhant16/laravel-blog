@@ -23,11 +23,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::when(Auth::user()->isAuthor(), fn ($q) => $q->where('user_id', Auth::id()))
-            ->when(request('search'), function ($q, $search) {
+        $posts = Post::when(Auth::user()->isAuthor(), fn ($q) => $q->where('user_id', Auth::id()))->where(function ($q) {
+            $q->when(request('search'), function ($q, $search) {
                 $q->where('title', "like", "%" . $search . "%")
                     ->orWhere('body', 'like', "%" . $search . "%");
-            })->latest('id')->paginate(10)->withQueryString();
+            });
+        })->latest('id')->paginate(10)->withQueryString();
         return view('post.index', ['posts' => $posts]);
     }
 

@@ -25,7 +25,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="category" class="form-label">Post Category</label>
-                    <select name="category" class="form-select  
+                    <select name="category" class="form-select
                     @error('category')
                     is-invalid
                     @enderror" id="category">
