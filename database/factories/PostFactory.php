@@ -23,7 +23,7 @@ class PostFactory extends Factory
         return [
             'title' => $title,
             'slug' => Str::slug($title),
-            'body' => $this->faker->realText(700),
+            'body' => $this->faker->realText(2000),
             'user_id' => User::inRandomOrder()->first()->id,
             'category_id' => Category::inRandomOrder()->first()->id
         ];

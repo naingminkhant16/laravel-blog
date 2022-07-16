@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Models\Photo;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -29,8 +30,8 @@ class PostController extends Controller
                     ->orWhere('body', 'like', "%" . $search . "%");
             });
         })
-        ->with(['author','category'])
-        ->latest('id')->paginate(10)->withQueryString();
+            ->with(['author', 'category'])
+            ->latest('id')->paginate(10)->withQueryString();
         return view('post.index', ['posts' => $posts]);
     }
 
@@ -64,6 +65,19 @@ class PostController extends Controller
             $post->image = $newName;
         }
         $post->save();
+
+        //saving post photos
+        foreach ($request->photos as $photo) {
+            //save photo to storage
+            $newName = uniqid() . "_post_photos." . $photo->extension();
+            $photo->storeAs('public/imgs', $newName);
+            //save to db
+            $photo = new Photo();
+            $photo->post_id = $post->id;
+            $photo->name = $newName;
+            $photo->save();
+        }
+
         return redirect()->route('post.index')->with('status', $post->title . ' is successfully created.');
     }
 

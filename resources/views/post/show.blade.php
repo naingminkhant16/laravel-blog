@@ -27,8 +27,14 @@
             </div>
 
             <p class="card-text mb-3">&nbsp;&nbsp;&nbsp;&nbsp; {{$post->body}}</p>
-
-            <div class="d-flex justify-content-between">
+            <div class="text-center my-3">
+                @forelse ($post->photos as $photo)
+                <img src="{{asset('storage/imgs/'.$photo->name)}}" height="120" class="rounded" alt="">
+                @empty
+                <p class="text-black-50">No Post Photos</p>
+                @endforelse
+            </div>
+            <div class="d-flex justify-content-between mt-3">
                 <a href="{{route('post.index')}}" class="btn btn-outline-dark">Back</a>
                 <a href="{{route('post.create')}}" class="btn btn-dark">New Post</a>
             </div>

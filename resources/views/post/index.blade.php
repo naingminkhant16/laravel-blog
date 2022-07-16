@@ -38,10 +38,18 @@
                     @foreach ($posts as $post)
                     <tr>
                         <td>{{$post->id}}</td>
-                        <td class="w-25">
-                            {{$post->title}}
-                            <br>
-                            <span class="badge bg-secondary">{{$post->slug}}</span>
+                        <td class="">
+                            <div class="">
+                                @isset($post->image)
+                                <img src="{{asset('storage/imgs/'.$post->image)}}" height="70" class="mb-3 rounded"
+                                    alt="">
+                                @endisset
+                                <div class="">
+                                    {{$post->title}}
+                                    <br>
+                                    <span class="badge bg-secondary">{{$post->slug}}</span>
+                                </div>
+                            </div>
                         </td>
                         @notAuthor
                         <td>{{$post->author->name}}</td>
