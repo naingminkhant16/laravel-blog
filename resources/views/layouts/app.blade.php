@@ -84,14 +84,14 @@
 
         @auth
         <main class="py-3">
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row g-3 justify-content-center">
-                    <div class="col-md-2">
+                    <div class="col-md-3">
 
                         @include('layouts.sidebar')
 
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-9">
                         @yield('content')
                     </div>
                 </div>

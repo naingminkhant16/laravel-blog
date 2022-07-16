@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use phpDocumentor\Reflection\PseudoTypes\LowercaseString;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -42,7 +45,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $wit = ['posts', 'categories'];
 
     public function posts()
     {
@@ -54,6 +56,10 @@ class User extends Authenticatable
         return $this->hasMany(Category::class);
     }
 
+    public function nation()
+    {
+        return $this->belongsTo(Nation::class);
+    }
 
     public function isAdmin()
     {
@@ -69,4 +75,14 @@ class User extends Authenticatable
     {
         return $this->role === 'author';
     }
+
+
+    //Accessors & Mutators
+    // protected function name(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn ($value) => Str::upper($value), //Accessors
+    //         set: fn ($value) => ucwords($value) //Mutators
+    //     );
+    // }
 }

@@ -13,7 +13,9 @@
     </div>
     <div class="card-body">
         This is home
-        {{Auth::user()->isAdmin()}}
+        <br>
+        {{Auth::user()->nation->name}} <br>
+        {{-- {{App\Models\Nation::first()->posts->first()}} --}}
     </div>
 </div>
 @endsection

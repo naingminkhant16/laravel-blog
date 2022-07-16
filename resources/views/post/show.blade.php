@@ -11,10 +11,10 @@
     <div class="card-body">
         <h4 class="card-title text-center fw-bold">{{$post->title}}</h4>
         <hr>
-        <div class="container w-50">
+        <div class="container">
             @isset($post->image)
             <div class="d-flex justify-content-center mb-3">
-                <img src="{{asset('storage/imgs/'.$post->image)}}" class="img-fluid">
+                <img src="{{asset('storage/imgs/'.$post->image)}}" class="rounded" height="300">
             </div>
             @endisset
             <div class="mb-3 text-center">

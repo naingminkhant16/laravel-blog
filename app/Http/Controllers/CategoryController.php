@@ -23,7 +23,10 @@ class CategoryController extends Controller
                 $q->when(request('search'), function ($q, $search) {
                     $q->where('title', "like", "%" . $search . "%");
                 });
-            })->latest('id')->get();
+            })
+            ->with('author')
+            ->latest('id')->get();
+
         return view('category.index', compact('categories'));
     }
 
@@ -34,7 +37,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('category.create');
+         return view('category.create');
     }
 
     /**

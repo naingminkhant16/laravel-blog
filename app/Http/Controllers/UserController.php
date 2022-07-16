@@ -19,7 +19,9 @@ class UserController extends Controller
     {
         $users = User::when(request('search'), function ($q, $search) {
             $q->where('name', "like", "%" . $search . "%")->orWhere('email', "like", "%" . $search . "%");
-        })->paginate(10)->withQueryString();
+        })
+        ->with(['categories','posts'])
+        ->paginate(10)->withQueryString();
         return view('user.index', compact('users'));
     }
 
@@ -30,7 +32,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return redirect()->route('home');
     }
 
     /**
@@ -52,7 +54,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return redirect()->route('home');
     }
 
     /**
@@ -63,7 +65,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return redirect()->route('home');
     }
 
     /**
