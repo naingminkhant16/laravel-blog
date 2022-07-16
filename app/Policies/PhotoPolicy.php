@@ -3,13 +3,19 @@
 namespace App\Policies;
 
 use App\Models\Photo;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PhotoPolicy
 {
     use HandlesAuthorization;
-
+    public function before(User $user)
+    {
+        if ($user->isAdmin() || $user->isEditor()) {
+            return true;
+        }
+    }
     /**
      * Determine whether the user can view any models.
      *
@@ -65,7 +71,7 @@ class PhotoPolicy
      */
     public function delete(User $user, Photo $photo)
     {
-        //
+        return $user->id == $photo->post->user_id;
     }
 
     /**

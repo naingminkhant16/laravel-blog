@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePhotoRequest;
 use App\Http\Requests\UpdatePhotoRequest;
 use App\Models\Photo;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class PhotoController extends Controller
 {
@@ -15,7 +17,7 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        //
+        return view('photo.index');
     }
 
     /**
@@ -25,7 +27,7 @@ class PhotoController extends Controller
      */
     public function create()
     {
-        //
+        return redirect()->route('post.index');
     }
 
     /**
@@ -36,7 +38,7 @@ class PhotoController extends Controller
      */
     public function store(StorePhotoRequest $request)
     {
-        //
+        return redirect()->route('post.index');
     }
 
     /**
@@ -47,7 +49,7 @@ class PhotoController extends Controller
      */
     public function show(Photo $photo)
     {
-        //
+        return redirect()->route('post.index');
     }
 
     /**
@@ -58,7 +60,9 @@ class PhotoController extends Controller
      */
     public function edit(Photo $photo)
     {
-        //
+        Gate::authorize('delete', $photo);
+        // return $photo;
+        return redirect()->route('post.index');
     }
 
     /**
@@ -70,7 +74,7 @@ class PhotoController extends Controller
      */
     public function update(UpdatePhotoRequest $request, Photo $photo)
     {
-        //
+        return redirect()->route('post.index');
     }
 
     /**
@@ -81,6 +85,11 @@ class PhotoController extends Controller
      */
     public function destroy(Photo $photo)
     {
-        //
+        Gate::authorize('delete', $photo);
+
+        Storage::delete('/public/imgs/' . $photo->name); //delete from storage
+
+        $photo->delete(); //delete from db
+        return redirect()->back()->with('status', 'Successfully Deleted Photo!');
     }
 }

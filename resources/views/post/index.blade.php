@@ -41,13 +41,12 @@
                         <td class="">
                             <div class="">
                                 @isset($post->image)
-                                <img src="{{asset('storage/imgs/'.$post->image)}}" height="70" class="mb-3 rounded"
+                                <img src="{{asset('storage/imgs/'.$post->image)}}" height="70" class="mb-1 rounded"
                                     alt="">
                                 @endisset
                                 <div class="">
                                     {{$post->title}}
-                                    <br>
-                                    <span class="badge bg-secondary">{{$post->slug}}</span>
+                                    {{-- <span class="badge bg-secondary">{{$post->slug}}</span> --}}
                                 </div>
                             </div>
                         </td>

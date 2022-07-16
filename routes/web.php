@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/post', PostController::class);
 
     Route::resource('/category', CategoryController::class);
+
+    Route::resource('/photo', PhotoController::class);
 
     Route::resource('/user', UserController::class)->middleware('isAdmin');
 });

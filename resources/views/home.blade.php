@@ -14,7 +14,8 @@
     <div class="card-body">
         This is home
         <br>
-        {{Auth::user()->nation->name}} <br>
+        Current User's Nation is {{Auth::user()->nation->name}} <br>
+
         {{-- {{App\Models\Nation::first()->posts->first()}} --}}
     </div>
 </div>

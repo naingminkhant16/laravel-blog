@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Models\Category;
 use App\Models\Photo;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
@@ -102,7 +103,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         Gate::authorize('view', $post);
-        return view('post.edit', ['post' => $post]);
+        return view('post.edit', ['post' => $post, 'categories' => Category::all()]);
     }
 
     /**
@@ -121,12 +122,29 @@ class PostController extends Controller
         $post->category_id = $request->category;
 
         if ($request->hasFile('image')) {
-            Storage::delete('public/imgs/' . $post->image);
+            Storage::delete('public/imgs/' . $post->image); //delete old featured image from storage
+
             $newName = uniqid() . "_featured_image." . $request->file('image')->extension();
-            $request->file('image')->storeAs('public/imgs', $newName);
-            $post->image = $newName;
+
+            $request->file('image')->storeAs('public/imgs', $newName); //store new featured image to storage
+
+            $post->image = $newName; //store new featured image to db
         }
         $post->update();
+
+        //photos storing in storage
+        if (!empty($request->photos)) {
+            foreach ($request->photos as $photo) {
+                $newName = uniqid() . "_post_photos_." . $photo->extension();
+                $photo->storeAs('public/imgs/', $newName); //save photo to storage
+                //save to db
+                $photo = new Photo();
+                $photo->name = $newName;
+                $photo->post_id = $post->id;
+                $photo->save();
+            }
+        }
+
         return redirect()->route('post.index')->with('status', $post->title . " is successfully updated.");
     }
 
