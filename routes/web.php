@@ -4,38 +4,18 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserPanelController;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', function () {
-    $posts = Post::when(request('search'), function ($q, $search) {
-        $q->where('title', "like", "%" . $search . "%")
-            ->orWhere('body', 'like', "%" . $search . "%");
-    })
-        ->with(['author', 'category'])
-        ->latest('id')->paginate(5)->withQueryString();
+Route::get('/', [UserPanelController::class, 'index']);
 
-    return view('welcome', ['posts' => $posts]);
-});
+Route::get('/detail/{post:slug}', [UserPanelController::class, 'detail']);
 
-Route::get('/detail/{post:slug}', function (Post $post) {
-    return view('post.show', ['post' => $post]);
-});
-
-Route::get('/cat/{category:slug}', function (Category $category) {
-    $posts = Post::when(request('search'), function ($q, $search) {
-        $q->where(function ($q) use ($search) {
-            $q->where('title', "like", "%" . $search . "%")
-                ->orWhere('body', 'like', "%" . $search . "%");
-        });
-    })->where('category_id', $category->id)
-        ->with(['author', 'category'])
-        ->latest('id')->paginate(5)->withQueryString();
-    return view('welcome', compact('posts'));
-})->name('cat');
+Route::get('/cat/{category:slug}', [UserPanelController::class, 'cat'])->name('cat');
 
 Auth::routes();
 

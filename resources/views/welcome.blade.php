@@ -19,15 +19,28 @@
             <div class="mb-3">
                 <form action="">
                     <div class="input-group">
-                        <input type="text" class="form-control bg-white" name="search">
+                        <input type="text" class="form-control bg-white" value="{{request('search')}}" name="search">
                         <button class="btn btn-secondary"><i class="bi bi-search"></i></button>
                     </div>
                 </form>
             </div>
             <div class="">
-                @if (session('status'))
-                <div class="alert alert-info">{{session('status')}}</div>
-                @endif
+                {{-- @if(request('search'))
+                <div class="d-flex mb-3 justify-content-start align-items-center">
+                    <p class="mb-0 me-3">Search by - {{request('search')}}</p>
+                    <div>
+                        <a href="/"><i class="fs-6 bi bi-trash-fill text-danger"></i></a>
+                    </div>
+                </div>
+                @endif --}}
+                @isset($category)
+                <div class="d-flex mb-3 justify-content-start align-items-center">
+                    <p class="mb-0 me-3">Filter by - {{$category->title}}</p>
+                    <div>
+                        <a href="/"><i class="fs-6 bi bi-trash-fill text-danger"></i></a>
+                    </div>
+                </div>
+                @endisset
                 @foreach ($posts as $post)
                 <div class="card mb-3">
                     <div class="card-body">
